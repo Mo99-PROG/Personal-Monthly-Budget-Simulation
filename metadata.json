@@ -1,0 +1,5 @@
+{
+  "name": "FlowBudget Simulator",
+  "description": "A forward-looking cash flow simulator that helps you visualize your bank balance evolution throughout the month with daily and weekly targets.",
+  "requestFramePermissions": []
+}
