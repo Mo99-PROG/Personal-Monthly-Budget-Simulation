@@ -1,3 +1,4 @@
+
 import React, { useState, useEffect } from 'react';
 import { 
   Transaction, 
@@ -170,30 +171,8 @@ const TransactionForm: React.FC<Props> = ({ onSubmit, onCancel, editingTransacti
               </div>
             ) : (
               <div className="space-y-8 bg-slate-50 p-7 rounded-[2.5rem] border border-slate-100 shadow-inner">
-                {/* Visual Weekday Picker */}
-                <div>
-                  <label className="block text-[10px] font-black text-slate-500 uppercase mb-5 tracking-widest text-center">Repeat on every...</label>
-                  <div className="flex justify-between gap-1.5 md:gap-3">
-                    {WEEKDAYS.map((day, i) => (
-                      <button
-                        key={day}
-                        type="button"
-                        onClick={() => setFormData({ ...formData, dayOfWeek: i })}
-                        className={`flex-1 py-4 rounded-2xl text-[10px] md:text-xs font-black transition-all border-2 ${
-                          formData.dayOfWeek === i
-                            ? 'bg-indigo-600 text-white border-indigo-600 shadow-xl shadow-indigo-100 scale-105'
-                            : 'bg-white text-slate-400 border-slate-100 hover:border-slate-200 shadow-sm'
-                        }`}
-                      >
-                        {day}
-                      </button>
-                    ))}
-                  </div>
-                  <p className="text-[10px] text-indigo-600 font-black mt-5 text-center uppercase tracking-[0.2em]">{WEEKDAYS_FULL[formData.dayOfWeek ?? 0]}s in the month</p>
-                </div>
-
                 {/* Simulation Logic Picker */}
-                <div className="pt-6 border-t border-slate-200/50">
+                <div>
                    <label className="block text-[10px] font-black text-slate-500 uppercase mb-5 tracking-widest text-center">Cash Flow Modeling</label>
                    <div className="grid grid-cols-2 gap-4">
                       <button
@@ -227,7 +206,37 @@ const TransactionForm: React.FC<Props> = ({ onSubmit, onCancel, editingTransacti
                         <span className="text-[9px] mt-1.5 text-slate-400 font-bold leading-none uppercase tracking-widest opacity-60">One Hit Day</span>
                       </button>
                    </div>
+                   
+                   <p className="mt-4 text-[10px] text-center text-slate-400 font-medium px-4 leading-relaxed">
+                    {formData.weeklyBehavior === WeeklyBehavior.SMOOTH 
+                      ? "Distribution: The cost is divided by 7 and applied every day. Specific weekday choice is hidden because it doesn't affect the math."
+                      : "Realism: The full amount hits your balance only on the specific weekday you choose below."}
+                   </p>
                 </div>
+
+                {/* Visual Weekday Picker - Only shown if LUMP_SUM is selected */}
+                {formData.weeklyBehavior === WeeklyBehavior.LUMP_SUM && (
+                  <div className="pt-6 border-t border-slate-200/50 animate-in fade-in slide-in-from-top-2 duration-300">
+                    <label className="block text-[10px] font-black text-slate-500 uppercase mb-5 tracking-widest text-center">Repeat on every...</label>
+                    <div className="flex justify-between gap-1.5 md:gap-3">
+                      {WEEKDAYS.map((day, i) => (
+                        <button
+                          key={day}
+                          type="button"
+                          onClick={() => setFormData({ ...formData, dayOfWeek: i })}
+                          className={`flex-1 py-4 rounded-2xl text-[10px] md:text-xs font-black transition-all border-2 ${
+                            formData.dayOfWeek === i
+                              ? 'bg-indigo-600 text-white border-indigo-600 shadow-xl shadow-indigo-100 scale-105'
+                              : 'bg-white text-slate-400 border-slate-100 hover:border-slate-200 shadow-sm'
+                          }`}
+                        >
+                          {day}
+                        </button>
+                      ))}
+                    </div>
+                    <p className="text-[10px] text-indigo-600 font-black mt-5 text-center uppercase tracking-[0.2em]">{WEEKDAYS_FULL[formData.dayOfWeek ?? 0]}s in the month</p>
+                  </div>
+                )}
               </div>
             )}
           </div>

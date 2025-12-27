@@ -37,6 +37,7 @@ export interface SimulationPoint {
   date: string;
   dayNumber: number;
   balance: number;
+  actualBalance?: number; // The "Reality" trajectory
   dailyDelta: number;
   cumulativeIncome: number;
   cumulativeExpenses: number;
@@ -45,6 +46,7 @@ export interface SimulationPoint {
 export interface WeeklySimulationPoint {
   weekLabel: string;
   balance: number;
+  actualBalance?: number;
   income: number;
   expenses: number;
 }
@@ -52,4 +54,9 @@ export interface WeeklySimulationPoint {
 export enum ViewMode {
   DAILY = 'DAILY',
   WEEKLY = 'WEEKLY'
+}
+
+export interface ActualEntry {
+  day: number;
+  value: number;
 }
